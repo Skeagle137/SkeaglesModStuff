@@ -1,3 +1,10 @@
 {
-  "block.smodstuff.duckblock": "Duck Block"
+  "_comment1": "BLOCKS",
+  "block.smodstuff.duckblock": "Duck Block",
+
+  "_comment2": "ITEMS",
+
+  "_comment3": "CREATIVE TABS",
+  "blockGroup.smodstuff": "SMS: Blocks",
+  "itemGroup.smodstuff": "SMS: Items"
 }

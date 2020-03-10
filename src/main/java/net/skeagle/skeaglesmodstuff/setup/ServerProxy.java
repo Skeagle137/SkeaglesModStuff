@@ -1,8 +1,13 @@
-package net.skeagle.skeaglesmodstuff.proxy;
+package net.skeagle.skeaglesmodstuff.setup;
 
 import net.minecraft.world.World;
 
 public class ServerProxy implements IProxy {
+
+    @Override
+    public void init() {
+
+    }
 
     @Override
     public World getClientWorld() {
