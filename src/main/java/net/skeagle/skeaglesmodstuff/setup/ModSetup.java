@@ -3,6 +3,7 @@ package net.skeagle.skeaglesmodstuff.setup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.skeagle.skeaglesmodstuff.Block.ModBlocks;
+import net.skeagle.skeaglesmodstuff.item.ModItems;
 
 public class ModSetup {
 
@@ -16,7 +17,7 @@ public class ModSetup {
     public ItemGroup itemGroup = new ItemGroup("smodstuff") {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ModBlocks.DUCKBLOCK);
+            return new ItemStack(ModItems.BREADSTICKITEM);
         }
     };
 

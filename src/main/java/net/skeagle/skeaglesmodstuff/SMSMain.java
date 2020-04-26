@@ -11,6 +11,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.skeagle.skeaglesmodstuff.Block.DuckBlock;
 import net.skeagle.skeaglesmodstuff.Block.ModBlocks;
+import net.skeagle.skeaglesmodstuff.item.BreadStickItem;
+import net.skeagle.skeaglesmodstuff.item.ChainLinkItem;
+import net.skeagle.skeaglesmodstuff.item.ModItems;
 import net.skeagle.skeaglesmodstuff.setup.ClientProxy;
 import net.skeagle.skeaglesmodstuff.setup.IProxy;
 import net.skeagle.skeaglesmodstuff.setup.ServerProxy;
@@ -49,11 +52,13 @@ public class SMSMain {
 
         @SubscribeEvent
         public static void onItemsRegistry(final RegistryEvent.Register<Item> e) {
-            Item.Properties propertiesBlocks = new Item.Properties()
-                    .group(setup.blockGroup);
-            Item.Properties propertiesItems = new Item.Properties()
-                    .group(setup.itemGroup);
+            Item.Properties propertiesBlocks = new Item.Properties().group(setup.blockGroup);
+            //block items
             e.getRegistry().register(new BlockItem(ModBlocks.DUCKBLOCK, propertiesBlocks).setRegistryName("duckblock"));
+            e.getRegistry().register(new BlockItem(ModBlocks.DUCKCAKEBLOCK, propertiesBlocks).setRegistryName("duckcakeblock"));
+            //generic items
+            e.getRegistry().register(new ChainLinkItem());
+            e.getRegistry().register(new BreadStickItem());
         }
     }
 }

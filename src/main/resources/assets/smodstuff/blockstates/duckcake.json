@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "bites=0": { "model": "block/duckcake" },
+    "bites=1": { "model": "block/duckcake_slice1" },
+    "bites=2": { "model": "block/duckcake_slice2" },
+    "bites=3": { "model": "block/duckcake_slice3" },
+    "bites=4": { "model": "block/duckcake_slice4" },
+    "bites=5": { "model": "block/duckcake_slice5" },
+    "bites=6": { "model": "block/duckcake_slice6" }
+  }
+}

@@ -3,6 +3,8 @@
   "block.smodstuff.duckblock": "Duck Block",
 
   "_comment2": "ITEMS",
+  "item.smodstuff.chainlinkitem": "Chain Link",
+  "item.smodstuff.breadstickitem": "Bread Stick",
 
   "_comment3": "CREATIVE TABS",
   "blockGroup.smodstuff": "SMS: Blocks",

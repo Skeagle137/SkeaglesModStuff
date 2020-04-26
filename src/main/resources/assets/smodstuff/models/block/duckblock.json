@@ -1,6 +1,12 @@
 {
-  "parent": "block/cube_all",
+  "parent": "block/cube",
   "textures": {
-    "all": "smodstuff:block/duckblock"
+    "particle": "smodstuff:block/duckblock",
+    "down": "smodstuff:block/duckblock",
+    "up": "smodstuff:block/duckblock",
+    "east": "smodstuff:block/duckblock",
+    "west": "smodstuff:block/duckblock",
+    "north": "smodstuff:block/duckblock_front",
+    "south": "smodstuff:block/duckblock"
   }
 }
