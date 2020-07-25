@@ -1,6 +1,7 @@
 {
   "_comment1": "BLOCKS",
   "block.smodstuff.duckblock": "Duck Block",
+  "block.smodstuff.duckcake": "Duck Cake",
 
   "_comment2": "ITEMS",
   "item.smodstuff.chainlinkitem": "Chain Link",

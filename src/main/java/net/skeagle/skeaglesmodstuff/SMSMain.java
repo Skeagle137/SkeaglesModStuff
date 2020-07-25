@@ -9,11 +9,10 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.skeagle.skeaglesmodstuff.Block.DuckBlock;
-import net.skeagle.skeaglesmodstuff.Block.ModBlocks;
+import net.skeagle.skeaglesmodstuff.block.DuckBlock;
+import net.skeagle.skeaglesmodstuff.block.DuckCake;
 import net.skeagle.skeaglesmodstuff.item.BreadStickItem;
 import net.skeagle.skeaglesmodstuff.item.ChainLinkItem;
-import net.skeagle.skeaglesmodstuff.item.ModItems;
 import net.skeagle.skeaglesmodstuff.setup.ClientProxy;
 import net.skeagle.skeaglesmodstuff.setup.IProxy;
 import net.skeagle.skeaglesmodstuff.setup.ServerProxy;
@@ -24,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("smodstuff")
 public class SMSMain {
-    public static IProxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
+    public static IProxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
     public static ModSetup setup = new ModSetup();
 
@@ -48,14 +47,15 @@ public class SMSMain {
         @SubscribeEvent
         public static void onBlocksRegistry(final RegistryEvent.Register<Block> e) {
             e.getRegistry().register(new DuckBlock());
+            e.getRegistry().register(new DuckCake());
         }
 
         @SubscribeEvent
         public static void onItemsRegistry(final RegistryEvent.Register<Item> e) {
             Item.Properties propertiesBlocks = new Item.Properties().group(setup.blockGroup);
             //block items
-            e.getRegistry().register(new BlockItem(ModBlocks.DUCKBLOCK, propertiesBlocks).setRegistryName("duckblock"));
-            e.getRegistry().register(new BlockItem(ModBlocks.DUCKCAKEBLOCK, propertiesBlocks).setRegistryName("duckcakeblock"));
+            e.getRegistry().register(new BlockItem(SMSBlockReg.DUCKBLOCK, propertiesBlocks).setRegistryName("duckblock"));
+            e.getRegistry().register(new BlockItem(SMSBlockReg.DUCKCAKE, propertiesBlocks).setRegistryName("duckcake"));
             //generic items
             e.getRegistry().register(new ChainLinkItem());
             e.getRegistry().register(new BreadStickItem());

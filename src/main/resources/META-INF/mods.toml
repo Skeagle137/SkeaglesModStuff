@@ -18,9 +18,9 @@ version="${file.jarVersion}" #mandatory
  # A display name for the mod
 displayName="Skeagle's Mod Stuff" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification <here>
-updateJSONURL="https://lol.skeagle.net" #optional
+updateJSONURL="" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="https://lol.skeagle.net" #optional
+displayURL="https://skeagle.net" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="lol.png" #optional
 # A text field displayed in the mod UI
