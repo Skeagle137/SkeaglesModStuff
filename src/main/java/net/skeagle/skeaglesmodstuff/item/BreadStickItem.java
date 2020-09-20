@@ -2,10 +2,9 @@ package net.skeagle.skeaglesmodstuff.item;
 
 
 import com.google.common.collect.Multimap;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Food;
 import net.minecraft.item.Item;
@@ -21,7 +20,7 @@ public class BreadStickItem extends Item {
                 .food(new Food.Builder()
                         .saturation(1f)
                         .hunger(20)
-                        .effect(new EffectInstance(Effects.SPEED, 120, 20, true, true), 1f)
+                        .effect(() -> new EffectInstance(Effects.SPEED, 120, 20, true, true), 1f)
                         .build())
         );
         setRegistryName("breadstickitem");
@@ -30,15 +29,14 @@ public class BreadStickItem extends Item {
     }
 
     @Override
-    public Multimap<String, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
-        final Multimap<String, AttributeModifier> modifiers = super.getAttributeModifiers(slot, stack);
-
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
         if (slot == EquipmentSlotType.MAINHAND) {
-            modifiers.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(),
-                    new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "generic.attackDamage", 999, AttributeModifier.Operation.ADDITION));
+            stack.addAttributeModifier(Attributes.ATTACK_DAMAGE,
+                    new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "generic.attack_damage",
+                            1000, AttributeModifier.Operation.ADDITION), slot);
         }
 
-        return modifiers;
+        return stack.getAttributeModifiers(slot);
     }
 
     @Override

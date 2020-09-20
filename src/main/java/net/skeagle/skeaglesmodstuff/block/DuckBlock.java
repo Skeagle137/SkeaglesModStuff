@@ -16,7 +16,7 @@ public class DuckBlock extends Block {
         super(Properties.create(Material.ROCK)
                 .sound(SoundType.GLASS)
                 .hardnessAndResistance(2.0f)
-                .lightValue(20)
+                .setLightLevel(a -> 20)
         );
         setRegistryName("duckblock");
     }
