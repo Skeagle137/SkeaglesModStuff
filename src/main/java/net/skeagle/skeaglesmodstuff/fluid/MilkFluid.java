@@ -27,10 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidAttributes;
-import net.skeagle.skeaglesmodstuff.SMSBlocks;
-import net.skeagle.skeaglesmodstuff.SMSFluids;
-import net.skeagle.skeaglesmodstuff.SMSItems;
-import net.skeagle.skeaglesmodstuff.SMSMain;
+import net.skeagle.skeaglesmodstuff.*;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -40,7 +37,7 @@ public abstract class MilkFluid extends FlowingFluid {
     @Override
     protected FluidAttributes createAttributes() {
         return FluidAttributes.builder(new ResourceLocation(SMSMain.MODID,"block/milk_still"), new ResourceLocation(SMSMain.MODID,"block/milk_flow"))
-                .color(0xFEFFE3F0).density(1000).luminosity(2)
+                .color(0xFFFFFFF0).density(1000).luminosity(2)
                 .overlay(new ResourceLocation(SMSMain.MODID, "block/milk_overlay"))
                 .build(this);
     }
@@ -72,7 +69,7 @@ public abstract class MilkFluid extends FlowingFluid {
     @Nullable
     @OnlyIn(Dist.CLIENT)
     public IParticleData getDripParticleData() {
-        return ParticleTypes.DRIPPING_WATER;
+        return SMSParticles.DRIPPING_MILK.get();
     }
 
     protected boolean canSourcesMultiply() {

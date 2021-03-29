@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.item.PaintingType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -16,6 +17,7 @@ public class ModSetup {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, SMSMain.MODID);
     public static final DeferredRegister<PaintingType> PAINTINGS = DeferredRegister.create(ForgeRegistries.PAINTING_TYPES, SMSMain.MODID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, SMSMain.MODID);
+    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, SMSMain.MODID);
 
     public static void register() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -24,11 +26,13 @@ public class ModSetup {
         SOUNDS.register(bus);
         PAINTINGS.register(bus);
         FLUIDS.register(bus);
+        PARTICLES.register(bus);
 
         SMSBlocks.init();
         SMSItems.init();
         SMSSounds.init();
         SMSPaintings.init();
         SMSFluids.init();
+        SMSParticles.init();
     }
 }
