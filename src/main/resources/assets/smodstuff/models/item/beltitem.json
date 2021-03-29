@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "smodstuff:item/chainlinkitem"
+    "layer0": "smodstuff:item/beltitem"
   }
 }

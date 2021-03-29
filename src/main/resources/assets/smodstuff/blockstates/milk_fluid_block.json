@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "smodstuff:block/milk_fluid_block"
+    }
+  }
+}

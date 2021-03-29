@@ -4,8 +4,12 @@
   "block.smodstuff.duckcake": "Duck Cake",
 
   "_comment2": "ITEMS",
-  "item.smodstuff.chainlinkitem": "Chain Link",
+  "item.smodstuff.beltitem": "Belt",
   "item.smodstuff.breadstickitem": "Bread Stick",
+  "item.smodstuff.music_disc_chugjug": "Music Disc",
+  "item.smodstuff.music_disc_chugjug.desc": "Leviathan - Chug Jug With You",
+  "item.smodstuff.toy_hammer": "Toy Hammer",
+  "item.smodstuff.enchanted_milk_bucket": "Enchanted Milk Bucket",
 
   "_comment3": "CREATIVE TABS",
   "blockGroup.smodstuff": "SMS: Blocks",

@@ -21,7 +21,6 @@ public class DuckCake extends CakeBlock {
                 .sound(SoundType.CLOTH)
                 .hardnessAndResistance(0.5f)
         );
-        setRegistryName("duckcake");
         this.setDefaultState(this.stateContainer.getBaseState().with(BITES, 0));
     }
 
@@ -29,12 +28,10 @@ public class DuckCake extends CakeBlock {
     public ActionResultType onBlockActivated(BlockState state, World w, BlockPos pos, PlayerEntity p, Hand hand, BlockRayTraceResult hit) {
         if (w.isRemote) {
             ItemStack i = p.getHeldItem(hand);
-            if (this.func_226911_a_(w, pos, state, p) == ActionResultType.SUCCESS) {
+            if (this.func_226911_a_(w, pos, state, p) == ActionResultType.SUCCESS)
                 return ActionResultType.SUCCESS;
-            }
-            if (i.isEmpty()) {
+            if (i.isEmpty())
                 return ActionResultType.CONSUME;
-            }
         }
         return this.func_226911_a_(w, pos, state, p);
     }
@@ -49,8 +46,7 @@ public class DuckCake extends CakeBlock {
             if (i < 6) {
                 w.setBlockState(pos, state.with(BITES, i + 1), 3);
             } else {
-                World world = p.world;
-                world.createExplosion(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 2, Explosion.Mode.BREAK);
+                p.world.createExplosion(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 4f, Explosion.Mode.BREAK);
                 w.removeBlock(pos, false);
             }
             return ActionResultType.SUCCESS;

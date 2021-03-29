@@ -1,0 +1,20 @@
+{
+  "music_disc.chugjug": {
+    "category" : "record",
+    "sounds": [
+      {
+        "name": "smodstuff:music_disc/chugjug",
+        "stream": true
+      }
+    ]
+  },
+  "item.toy_hammer": {
+    "category" : "player",
+    "sounds": [
+      {
+        "name": "smodstuff:item/toy_hammer",
+        "stream": false
+      }
+    ]
+  }
+}
