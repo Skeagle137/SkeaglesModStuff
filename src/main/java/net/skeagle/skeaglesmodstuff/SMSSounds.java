@@ -11,7 +11,7 @@ public class SMSSounds {
 
     private static RegistryObject<SoundEvent> register(String id) {
         ResourceLocation rloc = new ResourceLocation(SMSMain.MODID, id);
-        return ModSetup.SOUNDS.register(id, () -> new SoundEvent(rloc));
+        return Registry.SOUNDS.register(id, () -> new SoundEvent(rloc));
     }
 
     static void init() {}

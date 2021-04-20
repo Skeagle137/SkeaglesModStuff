@@ -15,7 +15,7 @@ public class SMSItems {
     public static final RegistryObject<Item> ENCHANTED_MILK_BUCKET = register("enchanted_milk_bucket", new EnchantedMilkBucketItem());
 
     private static RegistryObject<Item> register(String name, Item item) {
-        return ModSetup.ITEMS.register(name, () -> item);
+        return Registry.ITEMS.register(name, () -> item);
     }
 
     static void init() {}

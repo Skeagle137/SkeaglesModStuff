@@ -16,7 +16,7 @@
     </envs>
     <option name="MAIN_CLASS_NAME" value="net.minecraftforge.userdev.LaunchTesting" />
     <module name="SkeaglesModStuff.main" />
-    <option name="PROGRAM_PARAMETERS" value="--username LiterallySomeone@gmail.com --password Storm1678$" />
+    <option name="PROGRAM_PARAMETERS" value="--username eksdee.won.too.twee@gmail.com --password R1pp3dyR1p1370XD#$" />
     <option name="VM_PARAMETERS" value="-Dforge.logging.console.level=debug -Dforge.logging.markers=SCAN,REGISTRIES,REGISTRYDUMP -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump &quot;-Dos.name=Windows 10&quot; -Dos.version=10.0" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
     <method v="2">

@@ -14,14 +14,12 @@ import net.skeagle.skeaglesmodstuff.SMSParticles;
 
 @OnlyIn(Dist.CLIENT)
 public class MilkParticle extends SpriteTexturedParticle {
-    private final IParticleData data;
     private boolean fullbright;
 
-    public MilkParticle(ClientWorld world, double x, double y, double z, IParticleData data) {
+    public MilkParticle(ClientWorld world, double x, double y, double z) {
         super(world, x, y, z);
         this.setSize(0.01F, 0.01F);
-        this.particleGravity = 0.0012F;
-        this.data = data;
+        this.particleGravity = 0.06F;
         this.maxAge = 40;
     }
 
@@ -55,24 +53,45 @@ public class MilkParticle extends SpriteTexturedParticle {
     }
 
     protected void ageParticle() {
-        if (this.maxAge-- <= 0) {
+        if (this.maxAge-- <= 0)
             this.setExpired();
-            this.world.addParticle(this.data, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ);
-        }
     }
 
     protected void updateMotion() {
-        this.motionX *= 0.02D;
-        this.motionY *= 0.02D;
-        this.motionZ *= 0.02D;
     }
 
     @OnlyIn(Dist.CLIENT)
-    static class FallingMilk extends MilkParticle {
+    static class Dripping extends MilkParticle {
+        private final IParticleData data;
+
+        private Dripping(ClientWorld world, double x, double y, double z, IParticleData data) {
+            super(world, x, y, z);
+            this.data = data;
+            this.particleGravity *= 0.02F;
+            this.maxAge = 40;
+        }
+
+        protected void ageParticle() {
+            if (this.maxAge-- <= 0) {
+                this.setExpired();
+                this.world.addParticle(this.data, this.posX, this.posY, this.posZ, this.motionX, this.motionY, this.motionZ);
+            }
+
+        }
+
+        protected void updateMotion() {
+            this.motionX *= 0.02D;
+            this.motionY *= 0.02D;
+            this.motionZ *= 0.02D;
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    static class Falling extends MilkParticle {
         protected final IParticleData data;
 
-        public FallingMilk(ClientWorld world, double x, double y, double z, IParticleData data) {
-            super(world, x, y, z, data);
+        public Falling(ClientWorld world, double x, double y, double z, IParticleData data) {
+            super(world, x, y, z);
             this.data = data;
             this.maxAge = (int)(64.0D / (Math.random() * 0.8D + 0.2D));
         }
@@ -94,10 +113,10 @@ public class MilkParticle extends SpriteTexturedParticle {
         }
 
         public Particle makeParticle(BasicParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            MilkParticle milk = new MilkParticle(worldIn, x, y, z, SMSParticles.FALLING_MILK.get());
-            milk.setColor(0.985F, 0.998F, 0.998F);
-            milk.selectSpriteRandomly(this.spriteSet);
-            return milk;
+            Dripping drip = new Dripping(worldIn, x, y, z, SMSParticles.FALLING_MILK.get());
+            drip.setColor(0.985F, 0.998F, 0.998F);
+            drip.selectSpriteRandomly(this.spriteSet);
+            return drip;
         }
     }
 
@@ -110,10 +129,10 @@ public class MilkParticle extends SpriteTexturedParticle {
         }
 
         public Particle makeParticle(BasicParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            MilkParticle milk = new MilkParticle.FallingMilk(worldIn, x, y, z, ParticleTypes.SPLASH);
-            milk.setColor(0.985F, 0.998F, 0.998F);
-            milk.selectSpriteRandomly(this.spriteSet);
-            return milk;
+            Falling fall = new MilkParticle.Falling(worldIn, x, y, z, SMSParticles.MILK_SPLASH.get());
+            fall.setColor(0.985F, 0.998F, 0.998F);
+            fall.selectSpriteRandomly(this.spriteSet);
+            return fall;
         }
     }
 }

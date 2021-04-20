@@ -11,7 +11,7 @@ public class SMSFluids {
     public static final RegistryObject<FlowingFluid> MILK = register("milk", new MilkFluid.Source());
 
     private static <T extends Fluid> RegistryObject<T> register(String name, T fluid) {
-        return ModSetup.FLUIDS.register(name, () -> fluid);
+        return Registry.FLUIDS.register(name, () -> fluid);
     }
 
     static void init() {}

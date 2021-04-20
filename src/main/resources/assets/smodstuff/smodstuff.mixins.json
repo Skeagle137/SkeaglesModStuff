@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "net.skeagle.skeaglesmodstuff.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "smodstuff.refmap.json",
+  "mixins": [
+    "MixinEntity",
+    "MixinMilkFogRenderer",
+    "MixinMainMenuGui"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

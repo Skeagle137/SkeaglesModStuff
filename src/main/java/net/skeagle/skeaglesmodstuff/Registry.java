@@ -1,6 +1,7 @@
 package net.skeagle.skeaglesmodstuff;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.PaintingType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
@@ -11,7 +12,8 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
-public class ModSetup {
+public class Registry {
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, SMSMain.MODID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SMSMain.MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SMSMain.MODID);
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, SMSMain.MODID);
@@ -21,6 +23,7 @@ public class ModSetup {
 
     public static void register() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        ENTITIES.register(bus);
         BLOCKS.register(bus);
         ITEMS.register(bus);
         SOUNDS.register(bus);
@@ -28,11 +31,13 @@ public class ModSetup {
         FLUIDS.register(bus);
         PARTICLES.register(bus);
 
+        SMSEntities.init();
         SMSBlocks.init();
         SMSItems.init();
         SMSSounds.init();
         SMSPaintings.init();
         SMSFluids.init();
         SMSParticles.init();
+        SMSTags.init();
     }
 }

@@ -19,14 +19,14 @@ public class SMSBlocks {
 
     private static <T extends Block> RegistryObject<T> register(String name, T block) {
         BlockItem item = new BlockItem(block, new Item.Properties().group(SMSGroups.BLOCKS_TAB));
-        ModSetup.ITEMS.register(name, () -> item);
-        return ModSetup.BLOCKS.register(name, () -> block);
+        Registry.ITEMS.register(name, () -> item);
+        return Registry.BLOCKS.register(name, () -> block);
     }
 
     private static <T extends Block> RegistryObject<T> register(String name, T block, Function<T, BlockItem> item) {
         if (item != null)
-            ModSetup.ITEMS.register(name, () -> item.apply(block));
-        return ModSetup.BLOCKS.register(name, () -> block);
+            Registry.ITEMS.register(name, () -> item.apply(block));
+        return Registry.BLOCKS.register(name, () -> block);
     }
 
     static void init() {}
