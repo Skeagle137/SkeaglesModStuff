@@ -4,7 +4,9 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "smodstuff.refmap.json",
   "mixins": [
-    "MixinEntity",
+    "MixinEntity"
+  ],
+  "client": [
     "MixinMilkFogRenderer",
     "MixinMainMenuGui"
   ],

@@ -23,13 +23,13 @@ public abstract class SMSHumanEntity extends CreatureEntity {
 
     protected final void registerGoals() {
         this.goalSelector.addGoal(3, new SwimGoal(this));
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomWalkingGoal(this, 0.5D));
         this.goalSelector.addGoal(5, new LookAtGoal(this, PlayerEntity.class, 6.0F));
         this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
-        registerhumanGoals();
+        registerHumanGoals();
     }
 
-    protected abstract void registerhumanGoals();
+    protected abstract void registerHumanGoals();
 
     public static AttributeModifierMap.MutableAttribute registerAttributes() {
         return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 20.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.6D);

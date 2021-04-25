@@ -17,8 +17,9 @@ public class SMSItems {
     public static final RegistryObject<Item> ENCHANTED_MILK_BUCKET = register("enchanted_milk_bucket", new EnchantedMilkBucketItem());
 
     //spawn eggs
-    public static final RegistryObject<Item> MILK_CUBE_SPAWN_EGG = register("milk_cube_spawn_egg", new SpawnEggItem(SMSEntities.MILK_CUBE_TYPE, 152880875, 16581375, (new Item.Properties()).group(ItemGroup.MISC)));
-    public static final RegistryObject<Item> FIDO_SPAWN_EGG = register("milk_cube_spawn_egg", new SpawnEggItem(SMSEntities.FIDO_TYPE, 157464, 474552, (new Item.Properties()).group(ItemGroup.MISC)));
+    public static final RegistryObject<Item> MILK_CUBE_SPAWN_EGG = register("milk_cube_spawn_egg", new SpawnEggItem(SMSEntities.MILK_CUBE_TYPE, 0xfcfcfc, 0xf5f1dc, (new Item.Properties()).group(ItemGroup.MISC)));
+    public static final RegistryObject<Item> FIDO_SPAWN_EGG = register("fido_spawn_egg", new SpawnEggItem(SMSEntities.FIDO_TYPE, 0x363636, 0x460b49, (new Item.Properties()).group(ItemGroup.MISC)));
+    public static final RegistryObject<Item> DAD_SPAWN_EGG = register("dad_spawn_egg", new SpawnEggItem(SMSEntities.DAD_TYPE, 0x4b362a, 0xf3f3f3, (new Item.Properties()).group(ItemGroup.MISC)));
 
     private static RegistryObject<Item> register(String name, Item item) {
         return Registry.ITEMS.register(name, () -> item);
