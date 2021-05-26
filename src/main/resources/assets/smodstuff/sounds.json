@@ -16,5 +16,14 @@
         "stream": false
       }
     ]
+  },
+  "sms_misc.rip": {
+    "category" : "neutral",
+    "sounds": [
+      {
+        "name": "smodstuff:misc/rip",
+        "stream": false
+      }
+    ]
   }
 }

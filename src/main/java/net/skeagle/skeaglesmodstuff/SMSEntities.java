@@ -4,11 +4,13 @@ import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.SkeletonEntity;
+import net.minecraft.entity.passive.CowEntity;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
+import net.skeagle.skeaglesmodstuff.entity.eduardo.EduardoEntity;
 import net.skeagle.skeaglesmodstuff.entity.giantskeleton.GiantSkeletonEntity;
 import net.skeagle.skeaglesmodstuff.entity.human.SMSHumanEntity;
 import net.skeagle.skeaglesmodstuff.entity.human.dad.DadEntity;
@@ -32,11 +34,15 @@ public class SMSEntities {
     public static final EntityType<GiantSkeletonEntity> GIANT_SKELETON_TYPE = EntityType.Builder.create(GiantSkeletonEntity::new, EntityClassification.MONSTER).size(3.6F, 12.0F).trackingRange(10).build("giant_skeleton");
     public static final RegistryObject<EntityType<GiantSkeletonEntity>> GIANT_SKELETON = ENTITIES.register("giant_skeleton", () -> GIANT_SKELETON_TYPE);
 
+    public static final EntityType<EduardoEntity> EDUARDO_ENTITY_TYPE = EntityType.Builder.create(EduardoEntity::new, EntityClassification.CREATURE).size(0.9F, 1.4F).trackingRange(10).build("eduardo");
+    public static final RegistryObject<EntityType<EduardoEntity>> EDUARDO = ENTITIES.register("eduardo", () -> EDUARDO_ENTITY_TYPE);
+
     static void registerSpawns() {
         EntitySpawnPlacementRegistry.register(MILK_CUBE.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MilkCubeEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(FIDO.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, SMSHumanEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(DAD.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, SMSHumanEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(GIANT_SKELETON.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, GiantSkeletonEntity::canSpawnOn);
+        EntitySpawnPlacementRegistry.register(EDUARDO.get(), EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, EduardoEntity::canAnimalSpawn);
     }
 
     @SubscribeEvent
@@ -45,6 +51,7 @@ public class SMSEntities {
         e.put(FIDO.get(), FidoEntity.registerAttributes().create());
         e.put(DAD.get(), DadEntity.registerAttributes().create());
         e.put(GIANT_SKELETON.get(), GiantSkeletonEntity.registerAttributes().create());
+        e.put(EDUARDO.get(), EduardoEntity.registerAttributes().create());
     }
 
     static void init() {
