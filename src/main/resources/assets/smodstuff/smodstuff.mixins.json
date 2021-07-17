@@ -4,11 +4,16 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "smodstuff.refmap.json",
   "mixins": [
-    "MixinEntity"
+    "MixinEntity",
+    "MixinLivingEntity",
+    "MixinPlayerEntity",
+    "MixinServerPlayNetHandler"
   ],
   "client": [
-    "MixinMilkFogRenderer",
-    "MixinMainMenuGui"
+    "MixinMainMenuGui",
+    "MixinServerWorldInfo",
+    "MixinSkinManager",
+    "MixinGameRenderer"
   ],
   "injectors": {
     "defaultRequire": 1

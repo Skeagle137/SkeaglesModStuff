@@ -1,12 +1,14 @@
 package net.skeagle.skeaglesmodstuff;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.skeagle.skeaglesmodstuff.entity.milkcube.MilkCubeRenderer;
 import net.skeagle.skeaglesmodstuff.particle.*;
 
 public class SMSClient {

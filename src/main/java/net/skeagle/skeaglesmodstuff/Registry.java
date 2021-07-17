@@ -2,6 +2,7 @@ package net.skeagle.skeaglesmodstuff;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.item.PaintingType;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
@@ -14,6 +15,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
 public class Registry {
+    public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, SMSMain.MODID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, SMSMain.MODID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SMSMain.MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SMSMain.MODID);
@@ -24,6 +26,7 @@ public class Registry {
 
     public static void register() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        ATTRIBUTES.register(bus);
         ENTITIES.register(bus);
         BLOCKS.register(bus);
         ITEMS.register(bus);
@@ -32,6 +35,7 @@ public class Registry {
         FLUIDS.register(bus);
         PARTICLES.register(bus);
 
+        SMSAttributes.init();
         SMSEntities.init();
         SMSBlocks.init();
         SMSItems.init();
