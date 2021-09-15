@@ -1,48 +1,41 @@
 package net.skeagle.skeaglesmodstuff.entity.milkcube;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.SlimeEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.loot.LootTables;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ITag;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.Tag;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.phys.Vec3;
 import net.skeagle.skeaglesmodstuff.SMSParticles;
+import net.skeagle.skeaglesmodstuff.SMSTags;
 
 import java.util.Random;
 
-public class MilkCubeEntity extends SlimeEntity {
-    public MilkCubeEntity(EntityType<? extends MilkCubeEntity> type, World worldIn) {
+public class MilkCubeEntity extends Slime {
+    public MilkCubeEntity(EntityType<? extends MilkCubeEntity> type, Level worldIn) {
         super(type, worldIn);
     }
 
-    public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        //registerAttributes() equivalent in MonsterEntity
-        return MonsterEntity.func_234295_eP_().createMutableAttribute(Attributes.MOVEMENT_SPEED,0.2F);
+    public static AttributeSupplier.Builder registerAttributes() {
+        return Monster.createMonsterAttributes().add(Attributes.MOVEMENT_SPEED,0.2F);
     }
 
-    public static boolean canSpawn(EntityType<MilkCubeEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
+    public static boolean canSpawn(EntityType<MilkCubeEntity> type, LevelAccessor world, MobSpawnType spawnType, BlockPos pos, Random rand) {
         return world.getDifficulty() != Difficulty.PEACEFUL;
     }
 
-    public boolean isNotColliding(IWorldReader worldIn) {
-        return worldIn.checkNoEntityCollision(this) && !worldIn.containsAnyLiquid(this.getBoundingBox());
-    }
-
-    protected void setSlimeSize(int size, boolean resetHealth) {
-        super.setSlimeSize(size, resetHealth);
+    protected void setSize(int size, boolean resetHealth) {
+        super.setSize(size, resetHealth);
         this.getAttribute(Attributes.ARMOR).setBaseValue(size * 3);
     }
 
@@ -53,15 +46,8 @@ public class MilkCubeEntity extends SlimeEntity {
         return 1.05F;
     }
 
-    protected IParticleData getSquishParticle() {
+    protected ParticleOptions getParticleType() {
         return SMSParticles.MILK_SPLASH.get();
-    }
-
-    /**
-     * Returns true if the entity is on fire. Used by render to add the fire effect on rendering.
-     */
-    public boolean isBurning() {
-        return false;
     }
 
     /**
@@ -71,54 +57,35 @@ public class MilkCubeEntity extends SlimeEntity {
         return super.getJumpDelay() * 4;
     }
 
-    protected void alterSquishAmount() {
-        this.squishAmount *= 0.9F;
+    protected void decreaseSquish() {
+        this.targetSquish *= 0.9F;
     }
 
     /**
      * Causes this entity to do an upwards motion (jumping).
      */
-    protected void jump() {
-        this.setMotion(getMotion().x, this.getJumpUpwardsMotion() + ((float)this.getSlimeSize() * 0.1F), getMotion().z);
-        this.isAirBorne = true;
+    protected void jumpFromGround() {
+        Vec3 vec3 = this.getDeltaMovement();
+        this.setDeltaMovement(vec3.x, (this.getJumpPower() + (float)this.getSize() * 0.5F), vec3.z);
+        this.hasImpulse = true;
         net.minecraftforge.common.ForgeHooks.onLivingJump(this);
     }
 
-    protected void handleFluidJump(ITag<Fluid> fluidTag) {
-        if (fluidTag == FluidTags.LAVA) {
-            this.setMotion(getMotion().x, 0.22F + ((float)this.getSlimeSize() * 0.05F), getMotion().z);
-            this.isAirBorne = true;
+    protected void jumpInLiquid(Tag<Fluid> fluid) {
+        if (fluid == SMSTags.Fluids.MILK) {
+            Vec3 vec3 = this.getDeltaMovement();
+            this.setDeltaMovement(vec3.x, (0.5F + (float)this.getSize() * 0.05F), vec3.z);
+            this.hasImpulse = true;
+        } else {
+            super.jumpInLiquid(fluid);
         }
-        else
-            super.handleFluidJump(fluidTag);
-
     }
 
-    public boolean onLivingFall(float distance, float damageMultiplier) {
-        return false;
-    }
-
-    protected boolean canDamagePlayer() {
-        return this.isServerWorld();
-    }
-
-    protected float func_225512_er_() {
-        return super.func_225512_er_() + 0.8F;
-    }
-
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return this.isSmallSlime() ? SoundEvents.ENTITY_MAGMA_CUBE_HURT_SMALL : SoundEvents.ENTITY_MAGMA_CUBE_HURT;
-    }
-
-    protected SoundEvent getDeathSound() {
-        return this.isSmallSlime() ? SoundEvents.ENTITY_MAGMA_CUBE_DEATH_SMALL : SoundEvents.ENTITY_MAGMA_CUBE_DEATH;
-    }
-
-    protected SoundEvent getSquishSound() {
-        return this.isSmallSlime() ? SoundEvents.ENTITY_MAGMA_CUBE_SQUISH_SMALL : SoundEvents.ENTITY_MAGMA_CUBE_SQUISH;
+    protected float getAttackDamage() {
+        return super.getAttackDamage() + 2.0F;
     }
 
     protected SoundEvent getJumpSound() {
-        return SoundEvents.ENTITY_MAGMA_CUBE_JUMP;
+        return SoundEvents.MAGMA_CUBE_JUMP;
     }
 }

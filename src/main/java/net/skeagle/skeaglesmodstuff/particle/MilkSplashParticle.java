@@ -1,36 +1,36 @@
 package net.skeagle.skeaglesmodstuff.particle;
 
 import net.minecraft.client.particle.*;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particles.BasicParticleType;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class MilkSplashParticle extends RainParticle {
+public class MilkSplashParticle extends WaterDropParticle {
 
-    private MilkSplashParticle(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+    private MilkSplashParticle(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z);
-        this.particleGravity = 0.04F;
+        this.gravity = 0.04F;
         if (motionY == 0.0D && (motionX != 0.0D || motionZ != 0.0D)) {
-            this.motionX = motionX;
-            this.motionY = 0.1D;
-            this.motionZ = motionZ;
+            this.xd = motionX;
+            this.yd = 0.1D;
+            this.zd = motionZ;
         }
 
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Factory implements IParticleFactory<BasicParticleType> {
-        private final IAnimatedSprite spriteSet;
+    public static class Provider implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet set;
 
-        public Factory(IAnimatedSprite spriteSet) {
-            this.spriteSet = spriteSet;
+        public Provider(SpriteSet set) {
+            this.set = set;
         }
 
-        public Particle makeParticle(BasicParticleType typeIn, ClientWorld worldIn, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            MilkSplashParticle milkSplashParticle = new MilkSplashParticle(worldIn, x, y, z, xSpeed, ySpeed, zSpeed);
-            milkSplashParticle.selectSpriteRandomly(this.spriteSet);
+        public Particle createParticle(SimpleParticleType type, ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            MilkSplashParticle milkSplashParticle = new MilkSplashParticle(world, x, y, z, xSpeed, ySpeed, zSpeed);
+            milkSplashParticle.pickSprite(this.set);
             return milkSplashParticle;
         }
     }

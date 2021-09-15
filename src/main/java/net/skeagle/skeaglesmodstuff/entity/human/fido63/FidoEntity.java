@@ -1,13 +1,13 @@
 package net.skeagle.skeaglesmodstuff.entity.human.fido63;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.Level;
 import net.skeagle.skeaglesmodstuff.entity.human.SMSHumanEntity;
 
 public class FidoEntity extends SMSHumanEntity {
 
-    public FidoEntity(EntityType<? extends SMSHumanEntity> type, World worldIn) {
+    public FidoEntity(EntityType<? extends SMSHumanEntity> type, Level worldIn) {
         super(type, worldIn);
     }
 

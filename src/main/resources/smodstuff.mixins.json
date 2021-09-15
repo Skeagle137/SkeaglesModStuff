@@ -1,19 +1,20 @@
 {
   "required": true,
   "package": "net.skeagle.skeaglesmodstuff.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_16",
   "refmap": "smodstuff.refmap.json",
   "mixins": [
     "MixinEntity",
     "MixinLivingEntity",
-    "MixinPlayerEntity",
-    "MixinServerPlayNetHandler"
+    "MixinPlayer",
+    "MixinServerboundInteractPacket",
+    "MixinServerGamePacketListener"
   ],
   "client": [
-    "MixinMainMenuGui",
-    "MixinServerWorldInfo",
-    "MixinSkinManager",
-    "MixinGameRenderer"
+    "MixinGameRenderer",
+    "MixinTitleScreen",
+    "MixinPrimaryLevelData",
+    "MixinSkinManager"
   ],
   "injectors": {
     "defaultRequire": 1

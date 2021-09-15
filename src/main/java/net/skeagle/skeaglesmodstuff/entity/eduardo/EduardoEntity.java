@@ -1,55 +1,59 @@
 package net.skeagle.skeaglesmodstuff.entity.eduardo;
 
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DrinkHelper;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.ItemUtils;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.server.level.ServerLevel;
 import net.skeagle.skeaglesmodstuff.SMSItems;
 
-public class EduardoEntity extends CowEntity {
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 
-    public EduardoEntity(EntityType<? extends EduardoEntity> type, World world) {
+public class EduardoEntity extends Cow {
+
+    public EduardoEntity(EntityType<? extends EduardoEntity> type, Level world) {
         super(type, world);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 2.0D));
-        this.goalSelector.addGoal(3, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(5, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
     }
 
     @Override
-    public EduardoEntity createChild(ServerWorld world, AgeableEntity mate) {
+    public EduardoEntity getBreedOffspring(ServerLevel world, AgeableMob mate) {
         return (EduardoEntity) this.getType().create(world);
     }
 
-    public boolean isBreedingItem(ItemStack stack) {
-        return false;
+    public boolean isFood(ItemStack stack) {
+        return isBaby() && stack.getItem() == Items.WHEAT;
     }
 
     @Override
-    public ActionResultType getEntityInteractionResult(PlayerEntity player, Hand hand) {
-        ItemStack item = player.getHeldItem(hand);
-        if (item.getItem() == Items.BUCKET && !this.isChild()) {
-            player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
-            ItemStack item1 = DrinkHelper.fill(item, player, SMSItems.ENCHANTED_MILK_BUCKET.get().getDefaultInstance());
-            player.setHeldItem(hand, item1);
-            return ActionResultType.func_233537_a_(this.world.isRemote);
+    public InteractionResult mobInteract(Player player, InteractionHand hand) {
+        ItemStack item = player.getItemInHand(hand);
+        if (item.getItem() == Items.BUCKET && !this.isBaby()) {
+            player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
+            ItemStack item1 = ItemUtils.createFilledResult(item, player, SMSItems.ENCHANTED_MILK_BUCKET.get().getDefaultInstance());
+            player.setItemInHand(hand, item1);
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
         } else {
-            return super.getEntityInteractionResult(player, hand);
+            return super.mobInteract(player, hand);
         }
     }
 }

@@ -1,46 +1,52 @@
 package net.skeagle.skeaglesmodstuff.entity.human;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 
 import java.util.Random;
 
-public abstract class SMSHumanEntity extends CreatureEntity {
+public abstract class SMSHumanEntity extends PathfinderMob {
 
-    protected SMSHumanEntity(EntityType<? extends SMSHumanEntity> type, World worldIn) {
+    protected SMSHumanEntity(EntityType<? extends SMSHumanEntity> type, Level worldIn) {
         super(type, worldIn);
     }
 
     protected final void registerGoals() {
-        this.goalSelector.addGoal(3, new SwimGoal(this));
-        this.goalSelector.addGoal(4, new WaterAvoidingRandomWalkingGoal(this, 0.5D));
-        this.goalSelector.addGoal(5, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(5, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(3, new FloatGoal(this));
+        this.goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 0.5D));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
         registerHumanGoals();
     }
 
-    protected abstract void registerHumanGoals();
+    protected void registerHumanGoals() {
 
-    public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 20.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.6D);
     }
 
-    public static boolean canSpawn(EntityType<? extends SMSHumanEntity> entity, IWorld world, SpawnReason reason, BlockPos pos, Random rand) {
-        return world.getLightSubtracted(pos, 0) > 8;
+    public static AttributeSupplier.Builder registerAttributes() {
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 20.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.6D);
     }
 
-    public boolean canDespawn(double distanceToClosestPlayer) {
-        return false;
+    public static boolean canSpawn(EntityType<? extends SMSHumanEntity> entity, LevelAccessor world, MobSpawnType reason, BlockPos pos, Random rand) {
+        return world.getRawBrightness(pos, 0) > 8;
     }
 
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
@@ -52,15 +58,15 @@ public abstract class SMSHumanEntity extends CreatureEntity {
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
         if (damageSourceIn == DamageSource.ON_FIRE) {
-            return SoundEvents.ENTITY_PLAYER_HURT_ON_FIRE;
+            return SoundEvents.PLAYER_HURT_ON_FIRE;
         } else if (damageSourceIn == DamageSource.DROWN) {
-            return SoundEvents.ENTITY_PLAYER_HURT_DROWN;
+            return SoundEvents.PLAYER_HURT_DROWN;
         } else {
-            return damageSourceIn == DamageSource.SWEET_BERRY_BUSH ? SoundEvents.ENTITY_PLAYER_HURT_SWEET_BERRY_BUSH : SoundEvents.ENTITY_PLAYER_HURT;
+            return damageSourceIn == DamageSource.SWEET_BERRY_BUSH ? SoundEvents.PLAYER_HURT_SWEET_BERRY_BUSH : SoundEvents.PLAYER_HURT;
         }
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_PLAYER_DEATH;
+        return SoundEvents.PLAYER_DEATH;
     }
 }

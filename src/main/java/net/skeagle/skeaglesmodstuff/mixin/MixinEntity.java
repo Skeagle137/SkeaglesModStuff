@@ -1,10 +1,10 @@
 package net.skeagle.skeaglesmodstuff.mixin;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tags.ITag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.tags.Tag;
 import net.skeagle.skeaglesmodstuff.SMSParticles;
 import net.skeagle.skeaglesmodstuff.SMSTags;
 import org.spongepowered.asm.mixin.*;
@@ -14,14 +14,14 @@ import org.spongepowered.asm.mixin.injection.*;
 public abstract class MixinEntity {
 
     @Shadow public
-    abstract boolean handleFluidAcceleration(ITag<Fluid> fluidTag, double motionScale);
+    abstract boolean updateFluidHeightAndDoFluidPushing(Tag<Fluid> fluidTag, double motionScale);
 
     @ModifyArg(at = @At(value = "INVOKE",
-            target = "Lnet/minecraft/world/World;addParticle(Lnet/minecraft/particles/IParticleData;DDDDDD)V"),
+            target = "Lnet/minecraft/world/level/Level;addParticle(Lnet/minecraft/core/particles/ParticleOptions;DDDDDD)V"),
             index = 0,
             method = "doWaterSplashEffect()V")
-    private IParticleData doWaterSplashEffect(IParticleData type) {
-        if (this.handleFluidAcceleration(SMSTags.Fluids.MILK, 0.014D)) {
+    private ParticleOptions doWaterSplashEffect(ParticleOptions type) {
+        if (this.updateFluidHeightAndDoFluidPushing(SMSTags.Fluids.MILK, 0.014D)) {
             if (type == ParticleTypes.BUBBLE) {
                 return SMSParticles.MILK_BUBBLE.get();
             }

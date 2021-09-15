@@ -1,16 +1,13 @@
 package net.skeagle.skeaglesmodstuff.block;
 
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.material.Material;
-import net.skeagle.skeaglesmodstuff.SMSFluids;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.material.FlowingFluid;
 
-public class MilkFluidBlock extends FlowingFluidBlock {
+import java.util.function.Supplier;
 
-    public MilkFluidBlock() {
-        super(SMSFluids.MILK, Properties.create(Material.WATER)
-                .doesNotBlockMovement()
-                .hardnessAndResistance(100.0F)
-                .noDrops()
-        );
+public class MilkFluidBlock extends LiquidBlock {
+
+    public MilkFluidBlock(Supplier<? extends FlowingFluid> fluid, Properties properties) {
+        super(fluid, properties);
     }
 }

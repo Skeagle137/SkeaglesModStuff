@@ -1,18 +1,18 @@
 package net.skeagle.skeaglesmodstuff.item;
 
 import com.google.common.collect.Multimap;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.skeagle.skeaglesmodstuff.SMSGroups;
 
 import java.util.List;
@@ -24,34 +24,33 @@ public class ToyHammerItem extends Item {
 
     public ToyHammerItem() {
         super(new Item.Properties()
-                .group(SMSGroups.ITEMS_TAB)
+                .tab(SMSGroups.ITEMS_TAB)
         );
-        //setRegistryName("toy_hammer");
     }
 
     @Override
-    public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (!target.canBeAttackedWithItem() || target.hurtTime != target.maxHurtTime) return false;
-        Random r = target.getRNG();
+    public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        //if (!target.isAttackable() || target.hurtTime != target.hurtDuration) return false;
+        Random r = target.getRandom();
         target.playSound(TOY_HAMMER.get(), 1f, (r.nextFloat() - r.nextFloat()) * 0.15f + 1f);
         return true;
     }
 
     @Override
-    public void addInformation(ItemStack stack, World world, List<ITextComponent> list, ITooltipFlag flag) {
-        list.add(new TranslationTextComponent(TextFormatting.RED + "Just a toy hammer. Or is it?"));
+    public void appendHoverText(ItemStack stack, Level world, List<Component> list, TooltipFlag flag) {
+        list.add(new TranslatableComponent(ChatFormatting.RED + "Just a toy hammer. Or is it?"));
     }
 
     @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType slot, ItemStack stack) {
-        if (slot == EquipmentSlotType.MAINHAND)
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
+        if (slot == EquipmentSlot.MAINHAND)
             stack.addAttributeModifier(Attributes.ATTACK_DAMAGE,
-                    new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 1000, AttributeModifier.Operation.ADDITION), slot);
+                    new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 1000, AttributeModifier.Operation.ADDITION), slot);
         return stack.getAttributeModifiers(slot);
     }
 
     @Override
-    public boolean hasEffect(ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         return true;
     }
 }

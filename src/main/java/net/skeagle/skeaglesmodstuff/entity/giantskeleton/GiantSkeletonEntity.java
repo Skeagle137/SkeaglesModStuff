@@ -1,33 +1,34 @@
 package net.skeagle.skeaglesmodstuff.entity.giantskeleton;
 
-import net.minecraft.entity.EntitySize;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.Pose;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.Level;
 
-public class GiantSkeletonEntity extends SkeletonEntity {
+public class GiantSkeletonEntity extends Skeleton {
 
-    public GiantSkeletonEntity(EntityType<? extends GiantSkeletonEntity> entity, World world) {
+    public GiantSkeletonEntity(EntityType<? extends GiantSkeletonEntity> entity, Level world) {
         super(entity, world);
     }
 
-    public static AttributeModifierMap.MutableAttribute registerAttributes() {
-        return MonsterEntity.func_234295_eP_().createMutableAttribute(Attributes.MAX_HEALTH, 100.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.5D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 50.0D);
+    public static AttributeSupplier.Builder registerAttributes() {
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH, 100.0D)
+                .add(Attributes.MOVEMENT_SPEED, 0.5D)
+                .add(Attributes.ATTACK_DAMAGE, 50.0D);
     }
 
-    public float getBlockPathWeight(BlockPos pos, IWorldReader world) {
-        return world.getDimensionType().getAmbientLight(world.getLight(pos)) - 0.5F;
+    public float getWalkTargetValue(BlockPos pos, LevelReader world) {
+        return world.dimensionType().brightness(world.getLightEmission(pos)) - 0.5F;
     }
 
-    protected float getStandingEyeHeight(Pose poseIn, EntitySize sizeIn) {
+    protected float getStandingEyeHeight(Pose poseIn, EntityDimensions sizeIn) {
         return 20.88F;
     }
-
-
 }

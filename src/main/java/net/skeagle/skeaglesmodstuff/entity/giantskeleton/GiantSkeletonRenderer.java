@@ -1,24 +1,19 @@
 package net.skeagle.skeaglesmodstuff.entity.giantskeleton;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
-import net.minecraft.entity.monster.AbstractSkeletonEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.resources.ResourceLocation;
 
 public class GiantSkeletonRenderer extends SkeletonRenderer {
 
     private static final ResourceLocation GIANT_SKELETON_TEXTURES = new ResourceLocation("textures/entity/skeleton/skeleton.png");
 
-    public GiantSkeletonRenderer(EntityRendererManager renderManager) {
-        super(renderManager);
+    public GiantSkeletonRenderer(EntityRendererProvider.Context context) {
+        super(context);
     }
 
-    public ResourceLocation getEntityTexture(AbstractSkeletonEntity entity) {
+    public ResourceLocation getTextureLocation(AbstractSkeleton entity) {
         return GIANT_SKELETON_TEXTURES;
-    }
-
-    protected void preRenderCallback(AbstractSkeletonEntity entity, MatrixStack matrix, float tickTime) {
-        matrix.scale(12.0F, 12.0F, 12.0F);
     }
 }

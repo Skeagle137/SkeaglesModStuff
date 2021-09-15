@@ -1,11 +1,11 @@
 package net.skeagle.skeaglesmodstuff;
 
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.DimensionType;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.dimension.DimensionType;
 
 public class SMSDimensions {
 
-    public static final RegistryKey<DimensionType> MILK_DIM = RegistryKey.getOrCreateKey(Registry.DIMENSION_TYPE_KEY, new ResourceLocation("milk_dimension"));
+    public static final ResourceKey<DimensionType> MILK_DIM = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, new ResourceLocation("milk_dimension"));
 }

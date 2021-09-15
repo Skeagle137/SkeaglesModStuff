@@ -1,55 +1,55 @@
 package net.skeagle.skeaglesmodstuff.block;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CakeBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.CakeBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
 
 public class DuckCake extends CakeBlock {
     public DuckCake() {
-        super(Properties.create(Material.CAKE)
-                .sound(SoundType.CLOTH)
-                .hardnessAndResistance(0.5f)
+        super(Properties.of(Material.CAKE)
+                .sound(SoundType.WOOL)
+                .strength(0.5f)
         );
-        this.setDefaultState(this.stateContainer.getBaseState().with(BITES, 0));
+        this.registerDefaultState(this.stateDefinition.any().setValue(BITES, 0));
     }
 
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World w, BlockPos pos, PlayerEntity p, Hand hand, BlockRayTraceResult hit) {
-        if (w.isRemote) {
-            ItemStack i = p.getHeldItem(hand);
-            if (this.func_226911_a_(w, pos, state, p) == ActionResultType.SUCCESS)
-                return ActionResultType.SUCCESS;
+    public InteractionResult use(BlockState state, Level w, BlockPos pos, Player p, InteractionHand hand, BlockHitResult hit) {
+        if (w.isClientSide) {
+            ItemStack i = p.getItemInHand(hand);
+            if (this.eatSlice(w, pos, state, p) == InteractionResult.SUCCESS)
+                return InteractionResult.SUCCESS;
             if (i.isEmpty())
-                return ActionResultType.CONSUME;
+                return InteractionResult.CONSUME;
         }
-        return this.func_226911_a_(w, pos, state, p);
+        return this.eatSlice(w, pos, state, p);
     }
 
-    private ActionResultType func_226911_a_(final IWorld w, final BlockPos pos, final BlockState state, final PlayerEntity p) {
+    private InteractionResult eatSlice(final LevelAccessor w, final BlockPos pos, final BlockState state, final Player p) {
         if (!p.canEat(false)) {
-            return ActionResultType.PASS;
+            return InteractionResult.PASS;
         } else {
-            p.addStat(Stats.EAT_CAKE_SLICE);
-            p.getFoodStats().addStats(2, 0.1F);
-            int i = state.get(BITES);
+            p.awardStat(Stats.EAT_CAKE_SLICE);
+            p.getFoodData().eat(2, 0.1F);
+            int i = state.getValue(BITES);
             if (i < 6) {
-                w.setBlockState(pos, state.with(BITES, i + 1), 3);
+                w.setBlock(pos, state.setValue(BITES, i + 1), 3);
             } else {
-                p.world.createExplosion(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 4f, Explosion.Mode.BREAK);
+                p.level.explode(null, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 4f, Explosion.BlockInteraction.BREAK);
                 w.removeBlock(pos, false);
             }
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
     }
 }
