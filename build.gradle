@@ -20,7 +20,7 @@ version = '0.4-dev'
 group = 'net.skeagle.skeaglesmodstuff' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'smodstuff'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '16'
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 mixin {
     add sourceSets.main, "smodstuff.refmap.json"
@@ -89,15 +89,27 @@ dependencies {
 jar {
     manifest {
         attributes([
-            "Specification-Title": "smodstuff",
-            "Specification-Vendor": "smodstuff",
+            "Specification-Title": archivesBaseName,
+            "Specification-Vendor": archivesBaseName,
             "Specification-Version": "1",
             "Implementation-Title": project.name,
-            "Implementation-Version": "${project.version}",
-            "Implementation-Vendor": "smodstuff",
+            "Implementation-Version": project.version,
+            "Implementation-Vendor": archivesBaseName,
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
             "MixinConnector": "net.skeagle.skeaglesmodstuff.MixinConnector"
         ])
+    }
+}
+
+processResources {
+    duplicatesStrategy = duplicatesStrategy.INCLUDE
+    inputs.property 'version', project.version
+    from(sourceSets.main.resources.srcDirs) {
+        include 'META-INF/mods.toml'
+        expand 'version': project.version
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'META-INF/mods.toml'
     }
 }
 

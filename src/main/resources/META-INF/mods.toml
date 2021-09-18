@@ -7,7 +7,7 @@ authors="Skeagle"
 
 [[mods]]
 modId="smodstuff"
-version="${file.jarVersion}"
+version="${version}"
 displayName="Skeagle's Mod Stuff"
 description='''
 I mean, it's literally just some stuff I've made...
