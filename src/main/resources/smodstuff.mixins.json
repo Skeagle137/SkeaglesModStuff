@@ -12,9 +12,10 @@
   ],
   "client": [
     "MixinGameRenderer",
-    "MixinTitleScreen",
+    "MixinGui",
     "MixinPrimaryLevelData",
-    "MixinSkinManager"
+    "MixinSkinManager",
+    "MixinTitleScreen"
   ],
   "injectors": {
     "defaultRequire": 1
