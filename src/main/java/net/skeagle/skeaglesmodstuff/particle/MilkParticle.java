@@ -8,8 +8,8 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.skeagle.skeaglesmodstuff.SMSFluids;
-import net.skeagle.skeaglesmodstuff.SMSParticles;
+import net.skeagle.skeaglesmodstuff.registry.SMSFluids;
+import net.skeagle.skeaglesmodstuff.registry.SMSParticles;
 
 @OnlyIn(Dist.CLIENT)
 public class MilkParticle extends TextureSheetParticle {

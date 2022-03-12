@@ -1,46 +1,41 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://maven.parchmentmc.org' }
+        maven { url = 'https://repo.spongepowered.org/maven' }
         mavenCentral()
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1+', changing: true
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+'
+        classpath 'org.parchmentmc:librarian:1.+'
     }
 }
+
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
+version = "0.5-dev"
+group = "net.skeagle.skeaglesmodstuff"
+archivesBaseName = "smodstuff"
 
-version = '0.4-dev'
-group = 'net.skeagle.skeaglesmodstuff' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'smodstuff'
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
-
-mixin {
-    add sourceSets.main, "smodstuff.refmap.json"
-}
-
-sourceSets {
-    main {
-        ext.refMap = "smodstuff.refmap.json"
-    }
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.18.2-40.0.12'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 
 minecraft {
-    mappings channel: 'official', version: '1.17.1'
+    mappings channel: 'parchment', version: '1.18.1-2022.03.06-1.18.2'
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         client {
             properties 'mixin.env.disableRefMap': 'true'
-            workingDirectory project.file('run')
-            arg "--mixin.config " + archivesBaseName + ".mixins.json"
+            workingDirectory project.file('run/client')
+            arg "-mixin.config=smodstuff.mixins.json"
             property 'forge.logging.console.level', 'debug'
             mods {
                 smodstuff {
@@ -51,8 +46,8 @@ minecraft {
 
         server {
             properties 'mixin.env.disableRefMap': 'true'
-            workingDirectory project.file('run')
-            arg "-mixin.config="+archivesBaseName+".mixins.json"
+            workingDirectory project.file('run/server')
+            args '-nogui', "-mixin.config=smodstuff.mixins.json"
             property 'forge.logging.console.level', 'debug'
             mods {
                 smodstuff {
@@ -62,8 +57,7 @@ minecraft {
         }
 
         data {
-            properties 'mixin.env.disableRefMap': 'true'
-            workingDirectory project.file('run')
+            workingDirectory project.file('run/data')
             property 'forge.logging.console.level', 'debug'
             args '--mod', 'smodstuff', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             mods {
@@ -75,15 +69,12 @@ minecraft {
     }
 }
 
-repositories{
-    mavenCentral()
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-
-dependencies {
-    minecraft 'net.minecraftforge:forge:1.17.1-37.0.59'
-    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+mixin {
+    add sourceSets.main, "smodstuff.refmap.json"
 }
 
 jar {
@@ -91,7 +82,7 @@ jar {
         attributes([
             "Specification-Title": archivesBaseName,
             "Specification-Vendor": archivesBaseName,
-            "Specification-Version": "1",
+            "Specification-Version": project.version,
             "Implementation-Title": project.name,
             "Implementation-Version": project.version,
             "Implementation-Vendor": archivesBaseName,
@@ -102,7 +93,9 @@ jar {
 }
 
 processResources {
+    exclude ".cache"
     duplicatesStrategy = duplicatesStrategy.INCLUDE
+
     inputs.property 'version', project.version
     from(sourceSets.main.resources.srcDirs) {
         include 'META-INF/mods.toml'
@@ -110,28 +103,5 @@ processResources {
     }
     from(sourceSets.main.resources.srcDirs) {
         exclude 'META-INF/mods.toml'
-    }
-}
-
-jar.finalizedBy('reobfJar')
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
-}
-
-if (System.getProperty("idea.sync.active") == "true") {
-    afterEvaluate {
-        tasks.withType(JavaCompile).all {
-            it.options.annotationProcessorPath = files()
-        }
     }
 }

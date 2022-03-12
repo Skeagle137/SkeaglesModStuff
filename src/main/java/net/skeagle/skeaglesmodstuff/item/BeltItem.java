@@ -12,8 +12,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import net.skeagle.skeaglesmodstuff.SMSAttributes;
-import net.skeagle.skeaglesmodstuff.SMSGroups;
+import net.skeagle.skeaglesmodstuff.registry.SMSAttributes;
+import net.skeagle.skeaglesmodstuff.registry.SMSCreativeTabs;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +22,7 @@ public class BeltItem extends Item {
 
     public BeltItem() {
         super(new Item.Properties()
-                .tab(SMSGroups.ITEMS_TAB)
+                .tab(SMSCreativeTabs.ITEMS_TAB)
         );
     }
 

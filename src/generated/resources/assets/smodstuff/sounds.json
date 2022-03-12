@@ -1,0 +1,22 @@
+{
+  "music_disc.chug_jug": {
+    "sounds": [
+      {
+        "name": "smodstuff:music_disc/chug_jug",
+        "stream": true
+      }
+    ]
+  },
+  "item.toy_hammer": {
+    "subtitle": "subtitles.item.toy_hammer",
+    "sounds": [
+      "smodstuff:item/toy_hammer"
+    ]
+  },
+  "misc.rip": {
+    "subtitle": "subtitles.misc.rip",
+    "sounds": [
+      "smodstuff:misc/rip"
+    ]
+  }
+}

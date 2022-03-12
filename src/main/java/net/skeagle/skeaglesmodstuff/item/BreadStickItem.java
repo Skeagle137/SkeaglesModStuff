@@ -10,12 +10,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.skeagle.skeaglesmodstuff.SMSGroups;
+import net.skeagle.skeaglesmodstuff.registry.SMSCreativeTabs;
 
 public class BreadStickItem extends Item {
     public BreadStickItem() {
         super(new Item.Properties()
-                .tab(SMSGroups.ITEMS_TAB)
+                .tab(SMSCreativeTabs.ITEMS_TAB)
                 .food(new FoodProperties.Builder()
                         .saturationMod(1f)
                         .nutrition(20)

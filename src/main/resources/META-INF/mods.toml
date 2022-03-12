@@ -1,8 +1,8 @@
 modLoader="javafml"
 license="GPL License"
-loaderVersion="[37,)"
+loaderVersion="[40,)"
 displayURL="https://skeagle.net"
-credits="Lexmanos and cpw"
+credits="Thanks to you for playing my mod!"
 authors="Skeagle"
 
 [[mods]]
@@ -18,11 +18,13 @@ What were you expecting?
 [[dependencies.smodstuff]]
     modId="forge"
     mandatory=true
-    versionRange="[37.0.59,)"
+    versionRange="[40,)"
+    ordering="NONE"
+    side="BOTH"
 
 [[dependencies.smodstuff]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.17,1.18)"
+    versionRange="[1.18.2,1.19)"
     ordering="NONE"
     side="BOTH"

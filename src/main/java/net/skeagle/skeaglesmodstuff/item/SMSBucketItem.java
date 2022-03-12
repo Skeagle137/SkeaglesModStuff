@@ -5,7 +5,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.skeagle.skeaglesmodstuff.SMSGroups;
+import net.skeagle.skeaglesmodstuff.registry.SMSCreativeTabs;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -19,7 +19,7 @@ public class SMSBucketItem<T extends Fluid> extends BucketItem {
     }
 
     public SMSBucketItem(Supplier<T> fluid, TextComponent hoverText) {
-        super(fluid, new Item.Properties().stacksTo(1).tab(SMSGroups.ITEMS_TAB).rarity(Rarity.RARE).craftRemainder(Items.BUCKET));
+        super(fluid, new Item.Properties().stacksTo(1).tab(SMSCreativeTabs.ITEMS_TAB).rarity(Rarity.RARE).craftRemainder(Items.BUCKET));
         this.hoverText = hoverText;
     }
 

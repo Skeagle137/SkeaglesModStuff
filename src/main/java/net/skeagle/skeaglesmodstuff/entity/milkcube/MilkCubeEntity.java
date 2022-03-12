@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -16,8 +16,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
-import net.skeagle.skeaglesmodstuff.SMSParticles;
-import net.skeagle.skeaglesmodstuff.SMSTags;
+import net.skeagle.skeaglesmodstuff.registry.SMSParticles;
+import net.skeagle.skeaglesmodstuff.registry.SMSTags;
 
 import java.util.Random;
 
@@ -39,9 +39,6 @@ public class MilkCubeEntity extends Slime {
         this.getAttribute(Attributes.ARMOR).setBaseValue(size * 3);
     }
 
-    /**
-     * Gets how bright this entity is.
-     */
     public float getBrightness() {
         return 1.05F;
     }
@@ -50,9 +47,6 @@ public class MilkCubeEntity extends Slime {
         return SMSParticles.MILK_SPLASH.get();
     }
 
-    /**
-     * Gets the amount of time the slime needs to wait between jumps.
-     */
     protected int getJumpDelay() {
         return super.getJumpDelay() * 4;
     }
@@ -61,18 +55,8 @@ public class MilkCubeEntity extends Slime {
         this.targetSquish *= 0.9F;
     }
 
-    /**
-     * Causes this entity to do an upwards motion (jumping).
-     */
-    protected void jumpFromGround() {
-        Vec3 vec3 = this.getDeltaMovement();
-        this.setDeltaMovement(vec3.x, (this.getJumpPower() + (float)this.getSize() * 0.5F), vec3.z);
-        this.hasImpulse = true;
-        net.minecraftforge.common.ForgeHooks.onLivingJump(this);
-    }
-
-    protected void jumpInLiquid(Tag<Fluid> fluid) {
-        if (fluid == SMSTags.Fluids.MILK) {
+    protected void jumpInLiquid(TagKey<Fluid> fluid) {
+        if (fluid == SMSTags.MILK) {
             Vec3 vec3 = this.getDeltaMovement();
             this.setDeltaMovement(vec3.x, (0.5F + (float)this.getSize() * 0.05F), vec3.z);
             this.hasImpulse = true;

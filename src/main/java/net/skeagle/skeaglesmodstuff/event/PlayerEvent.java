@@ -8,7 +8,7 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.skeagle.skeaglesmodstuff.SMSBlocks;
+import net.skeagle.skeaglesmodstuff.registry.SMSBlocks;
 
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

@@ -13,18 +13,18 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.Level;
-import net.skeagle.skeaglesmodstuff.SMSGroups;
+import net.skeagle.skeaglesmodstuff.registry.SMSCreativeTabs;
 
 import java.util.List;
 import java.util.Random;
 
-import static net.skeagle.skeaglesmodstuff.SMSSounds.TOY_HAMMER;
+import static net.skeagle.skeaglesmodstuff.registry.SMSSounds.TOY_HAMMER;
 
 public class ToyHammerItem extends Item {
 
     public ToyHammerItem() {
         super(new Item.Properties()
-                .tab(SMSGroups.ITEMS_TAB)
+                .tab(SMSCreativeTabs.ITEMS_TAB)
         );
     }
 

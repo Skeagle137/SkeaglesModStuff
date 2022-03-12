@@ -2,6 +2,7 @@
   "_comment1": "BLOCKS",
   "block.smodstuff.duckblock": "Duck Block",
   "block.smodstuff.duckcake": "Duck Cake",
+  "block.smodstuff.milk": "Milk",
 
   "_comment2": "ITEMS",
   "item.smodstuff.beltitem": "Belt",
@@ -12,6 +13,10 @@
   "item.smodstuff.enchanted_milk_bucket": "Enchanted Milk Bucket",
 
   "_comment3": "CREATIVE TABS",
-  "blockGroup.smodstuff": "SMS: Blocks",
-  "itemGroup.smodstuff": "SMS: Items"
+  "itemGroup.smodstuff.blocks": "Skeagle's Mod Stuff: Blocks",
+  "itemGroup.smodstuff.items": "Skeagle's Mod Stuff: Items",
+
+  "_comment4": "SUBTITLES",
+  "subtitles.item.toy_hammer": "Toy hammer claims another victim",
+  "subtitles.misc.rip": "Haha funny bell go bong"
 }
