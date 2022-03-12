@@ -18,7 +18,7 @@ import java.util.List;
 @Mod(SMSMain.MODID)
 public class SMSMain {
     public static final String MODID = "smodstuff";
-    public static final String[] capeAccounts = { "Skeagle_", "IcaLLJAckS", "Tamunda", "Valasa", "SerenadeSP", "Spoop_me_boopy", "YouCantBetMe", "DeadedAndBreaded" };
+    public static final String[] capeAccounts = { "Skeagle_", "Tamunda", "Valasa", "SerenadeSP", "Spoop_me_boopy", "YouCantBetMe", "DeadedAndBreaded" };
     public static final boolean DEV_MODE = true;
 
     public SMSMain() {
