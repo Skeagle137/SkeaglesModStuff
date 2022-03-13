@@ -15,9 +15,9 @@ public class DataGen {
         DataGenerator gen = e.getGenerator();
         ExistingFileHelper helper = e.getExistingFileHelper();
 
+        gen.addProvider(new RecipeGen(gen));
         gen.addProvider(new FluidTagGen(gen, helper));
         gen.addProvider(new BlockLootGen(gen));
-        gen.addProvider(new RecipeGen(gen));
 
         if (e.includeClient()) {
             gen.addProvider(new ItemModelGen(gen, helper));

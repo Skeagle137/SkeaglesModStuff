@@ -1,14 +1,21 @@
 package net.skeagle.skeaglesmodstuff.data;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.client.model.generators.ItemModelBuilder;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.RegistryObject;
 import net.skeagle.skeaglesmodstuff.SMSMain;
+import net.skeagle.skeaglesmodstuff.registry.SMSBlocks;
 import net.skeagle.skeaglesmodstuff.registry.SMSItems;
+import net.skeagle.skeaglesmodstuff.utils.*;
+
+import java.lang.reflect.Field;
 
 public class ItemModelGen extends ItemModelProvider {
 
@@ -18,16 +25,73 @@ public class ItemModelGen extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        for (RegistryObject<Item> object : SMSItems.ITEMS.getEntries()) {
-            Item item = object.get();
-            if (item instanceof ForgeSpawnEggItem) {
-                this.spawnEgg(item);
+        Item item;
+        for (Field field : SMSItems.class.getFields()) {
+            try {
+                if (!(field.get(null) instanceof RegistryObject)) {
+                    continue;
+                }
+                item = ((RegistryObject<Item>) field.get(null)).get();
+                if (item instanceof ForgeSpawnEggItem) {
+                    this.spawnEgg(item);
+                }
+                if (field.isAnnotationPresent(ItemModel.class)) {
+                    fieldToItem(field, item.getRegistryName());
+                }
+            }
+            catch (IllegalArgumentException | IllegalAccessException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        registerBlockModels();
+
+        Block block;
+        for (Field field : SMSBlocks.class.getFields()) {
+            try {
+                if (field.isAnnotationPresent(ItemModel.class)) {
+                    block = ((RegistryObject<Block>) field.get(null)).get();
+                    fieldToItem(field, block.getRegistryName());
+                }
+                else if (field.isAnnotationPresent(MakeBlockItem.class)) {
+                    block = ((RegistryObject<Block>) field.get(null)).get();
+                    withExistingParent(block.getRegistryName().toString(), modLoc("block/" + block.getRegistryName().getPath()));
+                }
+            }
+            catch (IllegalArgumentException | IllegalAccessException ex) {
+                ex.printStackTrace();
             }
         }
     }
 
+    private void registerBlockModels() {
+        //this.baseCube(SMSBlocks.DUCK_BLOCK.get(), modLoc("block/duckblock")).texture("north", modLoc("block/duckblock_front"));
+        //this.cubeBottomTop(SMSBlocks.MILK_GRASS_BLOCK.get(), mcLoc("block/grass"));
+    }
+
     private ItemModelBuilder spawnEgg(Item item) {
-        return withExistingParent(item.getRegistryName().toString(), "item/template_spawn_egg");
+        return baseExisting(item, "item/template_spawn_egg");
+    }
+
+    private ItemModelBuilder baseExisting(Item item, String parent) {
+        return withExistingParent(item.getRegistryName().toString(), parent);
+    }
+
+    private ItemModelBuilder fieldToItem(Field field, ResourceLocation registryName) {
+        boolean handheld = field.getAnnotation(ItemModel.class).value() == ItemModel.ItemModelType.HANDHELD;
+        String path = field.isAnnotationPresent(TexturePath.class) ? field.getAnnotation(TexturePath.class).value() : null;
+        return withExistingParent(registryName.toString(), "item/" + (handheld ? "handheld" : "generated"))
+                .texture("layer0", path != null ? mcLoc("item/" + path) : modLoc("item/" + registryName.getPath()));
+    }
+
+    private ItemModelBuilder baseCube(Block block, ResourceLocation location) {
+        return getBuilder(block.getRegistryName().toString()).parent(new ModelFile.UncheckedModelFile("block/cube"))
+                .texture("down", location)
+                .texture("up", location)
+                .texture("north", location)
+                .texture("east", location)
+                .texture("south", location)
+                .texture("west", location);
     }
 
     @Override

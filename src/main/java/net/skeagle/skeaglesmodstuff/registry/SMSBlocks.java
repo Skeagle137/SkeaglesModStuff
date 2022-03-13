@@ -3,6 +3,7 @@ package net.skeagle.skeaglesmodstuff.registry;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
@@ -13,6 +14,7 @@ import net.skeagle.skeaglesmodstuff.block.DuckBlock;
 import net.skeagle.skeaglesmodstuff.block.DuckCake;
 import net.skeagle.skeaglesmodstuff.block.MilkFluidBlock;
 import net.skeagle.skeaglesmodstuff.utils.DropLoot;
+import net.skeagle.skeaglesmodstuff.utils.ItemModel;
 import net.skeagle.skeaglesmodstuff.utils.MakeBlockItem;
 
 public class SMSBlocks {
@@ -26,10 +28,13 @@ public class SMSBlocks {
     //normal blocks
     @MakeBlockItem @DropLoot
     public static final RegistryObject<Block> DUCK_BLOCK = BLOCKS.register("duckblock", DuckBlock::new);
-    @MakeBlockItem
+    @ItemModel
     public static final RegistryObject<Block> DUCK_CAKE = BLOCKS.register("duckcake", DuckCake::new);
-    @MakeBlockItem
+    //@MakeBlockItem
     public static final RegistryObject<Block> MILK_GRASS = BLOCKS.register("milk_grass",
+            () -> new TallGrassBlock(BlockBehaviour.Properties.of(Material.GRASS).randomTicks().strength(0.6F).sound(SoundType.GRASS)));
+    //@MakeBlockItem
+    public static final RegistryObject<Block> MILK_GRASS_BLOCK = BLOCKS.register("milk_grass_block",
             () -> new GrassBlock(BlockBehaviour.Properties.of(Material.GRASS).randomTicks().strength(0.6F).sound(SoundType.GRASS)));
 
     //decoration
