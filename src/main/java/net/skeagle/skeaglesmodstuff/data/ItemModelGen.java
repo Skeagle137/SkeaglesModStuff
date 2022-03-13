@@ -44,16 +44,15 @@ public class ItemModelGen extends ItemModelProvider {
             }
         }
 
-        registerBlockModels();
-
         Block block;
         for (Field field : SMSBlocks.class.getFields()) {
             try {
                 if (field.isAnnotationPresent(ItemModel.class)) {
                     block = ((RegistryObject<Block>) field.get(null)).get();
                     fieldToItem(field, block.getRegistryName());
+                    continue;
                 }
-                else if (field.isAnnotationPresent(MakeBlockItem.class)) {
+                if (field.isAnnotationPresent(MakeBlockItem.class)) {
                     block = ((RegistryObject<Block>) field.get(null)).get();
                     withExistingParent(block.getRegistryName().toString(), modLoc("block/" + block.getRegistryName().getPath()));
                 }
@@ -62,11 +61,6 @@ public class ItemModelGen extends ItemModelProvider {
                 ex.printStackTrace();
             }
         }
-    }
-
-    private void registerBlockModels() {
-        //this.baseCube(SMSBlocks.DUCK_BLOCK.get(), modLoc("block/duckblock")).texture("north", modLoc("block/duckblock_front"));
-        //this.cubeBottomTop(SMSBlocks.MILK_GRASS_BLOCK.get(), mcLoc("block/grass"));
     }
 
     private ItemModelBuilder spawnEgg(Item item) {
@@ -82,16 +76,6 @@ public class ItemModelGen extends ItemModelProvider {
         String path = field.isAnnotationPresent(TexturePath.class) ? field.getAnnotation(TexturePath.class).value() : null;
         return withExistingParent(registryName.toString(), "item/" + (handheld ? "handheld" : "generated"))
                 .texture("layer0", path != null ? mcLoc("item/" + path) : modLoc("item/" + registryName.getPath()));
-    }
-
-    private ItemModelBuilder baseCube(Block block, ResourceLocation location) {
-        return getBuilder(block.getRegistryName().toString()).parent(new ModelFile.UncheckedModelFile("block/cube"))
-                .texture("down", location)
-                .texture("up", location)
-                .texture("north", location)
-                .texture("east", location)
-                .texture("south", location)
-                .texture("west", location);
     }
 
     @Override

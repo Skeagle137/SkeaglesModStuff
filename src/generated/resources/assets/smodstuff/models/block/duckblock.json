@@ -1,0 +1,11 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "smodstuff:block/duckblock",
+    "up": "smodstuff:block/duckblock",
+    "north": "smodstuff:block/duckblock_front",
+    "east": "smodstuff:block/duckblock",
+    "south": "smodstuff:block/duckblock",
+    "west": "smodstuff:block/duckblock"
+  }
+}
