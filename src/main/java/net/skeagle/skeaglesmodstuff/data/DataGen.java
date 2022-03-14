@@ -18,7 +18,7 @@ public class DataGen {
         gen.addProvider(new RecipeGen(gen));
         gen.addProvider(new FluidTagGen(gen, helper));
         gen.addProvider(new BlockLootGen(gen));
-        gen.addProvider(new BlockModelGen(gen, helper));
+        gen.addProvider(new BlockModelStateGen(gen, helper));
 
         if (e.includeClient()) {
             gen.addProvider(new ItemModelGen(gen, helper));

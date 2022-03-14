@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "smodstuff:block/duckblock",
+      "x": 180
+    },
+    "facing=up": {
+      "model": "smodstuff:block/duckblock"
+    },
+    "facing=north": {
+      "model": "smodstuff:block/duckblock",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "smodstuff:block/duckblock",
+      "x": 90,
+      "y": 180
+    },
+    "facing=west": {
+      "model": "smodstuff:block/duckblock",
+      "x": 90,
+      "y": 270
+    },
+    "facing=east": {
+      "model": "smodstuff:block/duckblock",
+      "x": 90,
+      "y": 90
+    }
+  }
+}
